@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,8 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuaca Besok - Prakiraan Cuaca Terpercaya Indonesia</title>
-    <meta name="description" content="Dapatkan prakiraan cuaca akurat untuk seluruh Indonesia. Cuaca hari ini, besok, dan 7 hari ke depan dengan detail lengkap.">
-    <meta name="keywords" content="cuaca indonesia, prakiraan cuaca, weather forecast, cuaca jakarta, cuaca surabaya">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Cuaca Besok - Platform prakiraan cuaca terpercaya #1 di Indonesia. Dapatkan informasi cuaca akurat real-time untuk 500+ kota Indonesia. Prakiraan 7 hari, radar cuaca, peringatan dini gratis!">
+    <meta name="keywords" content="cuaca indonesia, prakiraan cuaca indonesia, weather forecast indonesia, cuaca hari ini, cuaca besok, cuaca jakarta, cuaca surabaya, cuaca bandung, info cuaca akurat, ramalan cuaca, weather indonesia, bmkg, meteorologi indonesia, cuaca real time">
+    <meta name="author" content="Cuaca Besok Indonesia">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="language" content="Indonesian">
+    <meta name="geo.region" content="ID">
+    <meta name="geo.country" content="Indonesia">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cuacabesok.com/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Cuaca Besok - Prakiraan Cuaca Terpercaya Indonesia 2025">
+    <meta property="og:description" content="Platform prakiraan cuaca #1 Indonesia dengan data real-time akurat. Cek cuaca hari ini, besok & 7 hari ke depan untuk 500+ kota Indonesia. Gratis!">
+    <meta property="og:image" content="https://cuacabesok.com/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://cuacabesok.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cuaca Besok">
+    <meta property="og:locale" content="id_ID">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cuaca Besok - Prakiraan Cuaca Terpercaya Indonesia">
+    <meta name="twitter:description" content="Platform prakiraan cuaca #1 Indonesia dengan data real-time akurat untuk 500+ kota.">
+    <meta name="twitter:image" content="https://cuacabesok.com/assets/twitter-card.jpg">
+    <meta name="twitter:site" content="@cuacabesok">
+    <meta name="twitter:creator" content="@cuacabesok">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#5D5CDE">
+    <meta name="msapplication-TileColor" content="#5D5CDE">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Cuaca Besok">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -632,6 +688,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#howToUseModal">
+                                <i class="fas fa-question-circle me-1"></i>Cara Menggunakan
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
                                 <i class="fas fa-envelope me-1"></i>Kontak
                             </a>
@@ -821,11 +882,11 @@
                         <div class="footer-section">
                             <h5>Informasi</h5>
                             <ul class="footer-links">
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#howToUseModal">Cara Menggunakan</a></li>
                                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">Tentang Kami</a></li>
                                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Kontak</a></li>
                                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Kebijakan Privasi</a></li>
                                 <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Syarat & Ketentuan</a></li>
-                                <li><a href="#">FAQ</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1067,6 +1128,153 @@
                         Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami di 
                         <strong>privacy@cuacabesok.com</strong> atau melalui formulir kontak kami.
                     </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How to Use Modal -->
+    <div class="modal fade" id="howToUseModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-question-circle me-2"></i>Cara Menggunakan Cuaca Besok
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <p class="lead">
+                            <i class="fas fa-heart text-danger me-2"></i>
+                            Selamat datang di Cuaca Besok! Platform ini dirancang khusus untuk memberikan 
+                            informasi cuaca terbaik bagi masyarakat Indonesia. Berikut panduan lengkap cara menggunakannya:
+                        </p>
+                    </div>
+
+                    <h6><i class="fas fa-search me-2"></i>1. Mencari Cuaca Kota</h6>
+                    <div class="mb-4">
+                        <p><strong>Cara Manual:</strong></p>
+                        <ul>
+                            <li>Ketik nama kota Indonesia di kotak pencarian</li>
+                            <li>Contoh: "Jakarta", "Surabaya", "Bandung"</li>
+                            <li>Tekan tombol "Cari" atau Enter untuk mencari</li>
+                            <li>Gunakan nama kota yang lengkap untuk hasil terbaik</li>
+                        </ul>
+                        <p><strong>Cara Cepat:</strong></p>
+                        <ul>
+                            <li>Klik salah satu tombol "Kota Populer" yang tersedia</li>
+                            <li>Tersedia 8 kota besar Indonesia untuk akses cepat</li>
+                            <li>Data cuaca akan langsung tampil tanpa perlu mengetik</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-thermometer-half me-2"></i>2. Membaca Informasi Cuaca Saat Ini</h6>
+                    <div class="mb-4">
+                        <p>Setelah mencari kota, Anda akan melihat:</p>
+                        <ul>
+                            <li><strong>Suhu Utama:</strong> Suhu saat ini dalam Celsius (°C)</li>
+                            <li><strong>Kondisi Cuaca:</strong> Deskripsi cuaca dalam bahasa Indonesia</li>
+                            <li><strong>Ikon Cuaca:</strong> Gambar yang menunjukkan kondisi cuaca</li>
+                            <li><strong>Lokasi:</strong> Nama kota dan wilayah yang dicari</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-info-circle me-2"></i>3. Detail Informasi Cuaca</h6>
+                    <div class="mb-4">
+                        <p>Bagian detail menampilkan 6 informasi penting:</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Jarak Pandang:</strong> Seberapa jauh Anda bisa melihat</li>
+                                    <li><strong>Kelembaban:</strong> Persentase kelembaban udara</li>
+                                    <li><strong>Kecepatan Angin:</strong> Kecepatan angin dalam km/jam</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Terasa Seperti:</strong> Suhu yang dirasakan tubuh</li>
+                                    <li><strong>Tekanan Udara:</strong> Tekanan atmosfer dalam milibar</li>
+                                    <li><strong>UV Index:</strong> Tingkat radiasi UV dengan kategori</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6><i class="fas fa-calendar-alt me-2"></i>4. Prakiraan 7 Hari ke Depan</h6>
+                    <div class="mb-4">
+                        <p>Scroll horizontal untuk melihat prakiraan lengkap:</p>
+                        <ul>
+                            <li><strong>Hari Ini & Besok:</strong> Ditandai dengan label khusus</li>
+                            <li><strong>Suhu Tinggi/Rendah:</strong> Suhu maksimal dan minimal harian</li>
+                            <li><strong>Kondisi Cuaca:</strong> Prediksi cuaca untuk setiap hari</li>
+                            <li><strong>Kelembaban:</strong> Rata-rata kelembaban harian</li>
+                            <li><strong>Ikon Cuaca:</strong> Visualisasi kondisi cuaca setiap hari</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-mobile-alt me-2"></i>5. Tips Penggunaan Mobile</h6>
+                    <div class="mb-4">
+                        <ul>
+                            <li>Website responsive, bisa diakses di HP, tablet, dan desktop</li>
+                            <li>Scroll horizontal pada bagian prakiraan 7 hari</li>
+                            <li>Tap tombol kota populer untuk akses cepat</li>
+                            <li>Data akan update otomatis setiap kali Anda mencari</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-keyboard me-2"></i>6. Shortcut Keyboard (Desktop)</h6>
+                    <div class="mb-4">
+                        <ul>
+                            <li><strong>Ctrl + K:</strong> Fokus langsung ke kotak pencarian</li>
+                            <li><strong>Enter:</strong> Cari cuaca setelah mengetik nama kota</li>
+                            <li>Navigasi menggunakan Tab untuk aksesibilitas</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-clock me-2"></i>7. Informasi Update Data</h6>
+                    <div class="mb-4">
+                        <ul>
+                            <li>Data cuaca diperbarui setiap 15 menit</li>
+                            <li>Sumber data dari stasiun cuaca internasional terpercaya</li>
+                            <li>Akurasi tinggi untuk wilayah Indonesia</li>
+                            <li>Gratis tanpa batas penggunaan</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-lightbulb me-2"></i>8. Tips & Trik</h6>
+                    <div class="mb-4">
+                        <ul>
+                            <li><strong>Bookmark:</strong> Simpan halaman untuk akses cepat</li>
+                            <li><strong>Sharing:</strong> Bagikan informasi cuaca dengan teman</li>
+                            <li><strong>Perencanaan:</strong> Gunakan prakiraan 7 hari untuk rencana perjalanan</li>
+                            <li><strong>UV Index:</strong> Perhatikan untuk aktivitas outdoor</li>
+                            <li><strong>Kelembaban:</strong> Berguna untuk penderita asma/alergi</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-question me-2"></i>9. Troubleshooting</h6>
+                    <div class="mb-4">
+                        <p><strong>Jika kota tidak ditemukan:</strong></p>
+                        <ul>
+                            <li>Periksa ejaan nama kota</li>
+                            <li>Coba gunakan nama alternatif (Jakarta = DKI Jakarta)</li>
+                            <li>Gunakan nama kabupaten untuk kota kecil</li>
+                            <li>Pastikan koneksi internet stabil</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="fas fa-phone me-2"></i>10. Butuh Bantuan?</h6>
+                    <div class="alert alert-info">
+                        <p class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            <strong>Tim support kami siap membantu 24/7!</strong>
+                        </p>
+                        <p class="mb-0">
+                            Klik tombol "Hubungi Kami" atau kirim email ke 
+                            <strong>support@cuacabesok.com</strong> untuk bantuan teknis.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

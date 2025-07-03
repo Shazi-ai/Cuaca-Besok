@@ -1,1 +1,1458 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuaca Besok - Prakiraan Cuaca Terpercaya Indonesia</title>
+    <meta name="description" content="Dapatkan prakiraan cuaca akurat untuk seluruh Indonesia. Cuaca hari ini, besok, dan 7 hari ke depan dengan detail lengkap.">
+    <meta name="keywords" content="cuaca indonesia, prakiraan cuaca, weather forecast, cuaca jakarta, cuaca surabaya">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #5D5CDE;
+            --primary-dark: #4a49d1;
+            --secondary-color: #f8f9fa;
+            --accent-color: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-color: #ffffff;
+            --dark-color: #343a40;
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --box-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color), #764ba2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+            text-decoration: none;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            padding: 0.75rem 1rem !important;
+            transition: var(--transition);
+            border-radius: 8px;
+            margin: 0 4px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: rgba(93, 92, 222, 0.1);
+            color: var(--primary-color) !important;
+        }
+
+        .btn-primary-custom {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow-lg);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 180px);
+            padding: 40px 0;
+        }
+
+        .weather-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .weather-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--box-shadow-lg);
+        }
+
+        .hero-card {
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+            padding: 50px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-card h1 {
+            font-weight: 800;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-card p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            border-radius: 50px;
+            border: 2px solid #e9ecef;
+            padding: 18px 60px 18px 24px;
+            font-size: 16px;
+            width: 100%;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(93, 92, 222, 0.25);
+            outline: none;
+            background: white;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 20px;
+            color: white;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: var(--box-shadow);
+        }
+
+        .current-weather {
+            text-align: center;
+            padding: 40px 30px;
+        }
+
+        .weather-icon {
+            width: 140px;
+            height: 140px;
+            margin: 25px auto;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .temperature {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin: 25px 0 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .location-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+
+        .weather-description {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .detail-item {
+            text-align: center;
+            padding: 20px 15px;
+            background: rgba(93, 92, 222, 0.06);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border: 1px solid rgba(93, 92, 222, 0.1);
+        }
+
+        .detail-item:hover {
+            background: rgba(93, 92, 222, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .detail-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .forecast-container {
+            padding: 30px;
+        }
+
+        .forecast-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--dark-color);
+        }
+
+        .forecast-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 15px;
+            scroll-behavior: smooth;
+        }
+
+        .forecast-item {
+            min-width: 160px;
+            text-align: center;
+            padding: 25px 20px;
+            background: rgba(93, 92, 222, 0.06);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border: 1px solid rgba(93, 92, 222, 0.1);
+        }
+
+        .forecast-item:hover {
+            background: rgba(93, 92, 222, 0.12);
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .forecast-day {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+
+        .forecast-icon {
+            width: 60px;
+            height: 60px;
+            margin: 15px auto;
+        }
+
+        .forecast-temps {
+            margin-top: 15px;
+        }
+
+        .forecast-high {
+            font-weight: 700;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+        }
+
+        .forecast-low {
+            color: var(--accent-color);
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        .popular-cities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .cities-label {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .city-btn {
+            background: rgba(93, 92, 222, 0.1);
+            border: 1px solid rgba(93, 92, 222, 0.2);
+            color: var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .city-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Footer Styles */
+        .main-footer {
+            background: rgba(52, 58, 64, 0.95);
+            backdrop-filter: blur(20px);
+            color: white;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            padding: 60px 0 30px;
+        }
+
+        .footer-section h5 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p {
+            color: #adb5bd;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(93, 92, 222, 0.2);
+            color: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #495057;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+            color: #adb5bd;
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: var(--border-radius-lg);
+            border: none;
+            box-shadow: var(--box-shadow-lg);
+        }
+
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+            border-bottom: none;
+            padding: 25px 30px;
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .btn-close {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 30px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .modal-body h6 {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Loading and Error States */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--accent-color);
+        }
+
+        .loading i {
+            font-size: 3rem;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 25px 0;
+            border: 1px solid #f5c6cb;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-card h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-card p {
+                font-size: 1.1rem;
+            }
+            
+            .temperature {
+                font-size: 3.5rem;
+            }
+            
+            .weather-details {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .forecast-item {
+                min-width: 140px;
+                padding: 20px 15px;
+            }
+
+            .main-content {
+                padding: 20px 0;
+            }
+
+            .popular-cities {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cities-label {
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-card {
+                padding: 35px 20px;
+            }
+
+            .current-weather {
+                padding: 30px 20px;
+            }
+
+            .forecast-container {
+                padding: 25px 20px;
+            }
+
+            .weather-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Contact Form Styles */
+        .form-floating > .form-control {
+            border-radius: var(--border-radius);
+            border: 2px solid #e9ecef;
+            font-size: 16px;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(93, 92, 222, 0.25);
+        }
+
+        .form-floating > label {
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#home">
+                    <i class="fas fa-cloud-sun"></i>Cuaca Besok
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#home">
+                                <i class="fas fa-home me-1"></i>Beranda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">
+                                <i class="fas fa-info-circle me-1"></i>Tentang Kami
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">
+                                <i class="fas fa-envelope me-1"></i>Kontak
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="d-flex">
+                        <a href="#" class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#contactModal">
+                            <i class="fas fa-paper-plane me-2"></i>Hubungi Kami
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="home">
+        <div class="container">
+            <div class="weather-container">
+                <!-- Hero Section -->
+                <div class="weather-card hero-card">
+                    <h1><i class="fas fa-cloud-sun me-3"></i>Cuaca Besok</h1>
+                    <p>Prakiraan Cuaca Terpercaya untuk Seluruh Indonesia - Update Real Time 2025</p>
+                </div>
+
+                <!-- Search Section -->
+                <div class="weather-card">
+                    <div class="p-4">
+                        <div class="search-container">
+                            <input type="text" id="searchInput" class="search-input" 
+                                   placeholder="Cari kota di Indonesia (contoh: Jakarta, Surabaya, Bandung...)" 
+                                   onkeypress="handleKeyPress(event)">
+                            <button class="search-btn" onclick="searchWeather()">
+                                <i class="fas fa-search me-2"></i>Cari
+                            </button>
+                        </div>
+                        
+                        <div class="popular-cities">
+                            <span class="cities-label"><i class="fas fa-map-marker-alt me-2"></i>Kota Populer:</span>
+                            <button class="city-btn" onclick="searchCity('Jakarta')">
+                                <i class="fas fa-building me-1"></i>Jakarta
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Surabaya')">
+                                <i class="fas fa-ship me-1"></i>Surabaya
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Bandung')">
+                                <i class="fas fa-mountain me-1"></i>Bandung
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Medan')">
+                                <i class="fas fa-tree me-1"></i>Medan
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Yogyakarta')">
+                                <i class="fas fa-university me-1"></i>Yogyakarta
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Denpasar')">
+                                <i class="fas fa-umbrella-beach me-1"></i>Denpasar
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Makassar')">
+                                <i class="fas fa-anchor me-1"></i>Makassar
+                            </button>
+                            <button class="city-btn" onclick="searchCity('Palembang')">
+                                <i class="fas fa-water me-1"></i>Palembang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Weather -->
+                <div id="currentWeather" class="weather-card" style="display: none;">
+                    <div class="current-weather">
+                        <div class="location-name" id="locationName"></div>
+                        <div class="weather-description" id="weatherDescription"></div>
+                        <img id="weatherIcon" class="weather-icon" src="" alt="Ikon Cuaca">
+                        <div class="temperature" id="temperature"></div>
+                        <div class="weather-details">
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-eye"></i></div>
+                                <div class="detail-label">Jarak Pandang</div>
+                                <div class="detail-value" id="visibility"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-tint"></i></div>
+                                <div class="detail-label">Kelembaban</div>
+                                <div class="detail-value" id="humidity"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-wind"></i></div>
+                                <div class="detail-label">Kecepatan Angin</div>
+                                <div class="detail-value" id="windSpeed"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-thermometer-half"></i></div>
+                                <div class="detail-label">Terasa Seperti</div>
+                                <div class="detail-value" id="feelsLike"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-compress-arrows-alt"></i></div>
+                                <div class="detail-label">Tekanan Udara</div>
+                                <div class="detail-value" id="pressure"></div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-icon"><i class="fas fa-sun"></i></div>
+                                <div class="detail-label">UV Index</div>
+                                <div class="detail-value" id="uvIndex"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7-Day Forecast -->
+                <div id="forecastWeather" class="weather-card" style="display: none;">
+                    <div class="forecast-container">
+                        <h3 class="forecast-title">
+                            <i class="fas fa-calendar-alt me-3"></i>Prakiraan Cuaca 7 Hari Ke Depan
+                        </h3>
+                        <div class="forecast-scroll" id="forecastContainer">
+                            <!-- Forecast items will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="weather-card loading" style="display: none;">
+                    <i class="fas fa-spinner"></i>
+                    <h5>Memuat Data Cuaca...</h5>
+                    <p>Mohon tunggu sebentar</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="errorMessage" class="error-message" style="display: none;">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="errorText"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="footer-section">
+                            <h5>
+                                <i class="fas fa-cloud-sun me-2"></i>Cuaca Besok
+                            </h5>
+                            <p>
+                                Platform prakiraan cuaca terpercaya untuk Indonesia. Dapatkan informasi cuaca akurat 
+                                dan terkini untuk seluruh kota di Indonesia dengan teknologi terdepan.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" title="YouTube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="#" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <div class="footer-section">
+                            <h5>Layanan</h5>
+                            <ul class="footer-links">
+                                <li><a href="#home">Cuaca Hari Ini</a></li>
+                                <li><a href="#home">Prakiraan 7 Hari</a></li>
+                                <li><a href="#home">Radar Cuaca</a></li>
+                                <li><a href="#home">Peringatan Dini</a></li>
+                                <li><a href="#home">API Weather</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="footer-section">
+                            <h5>Informasi</h5>
+                            <ul class="footer-links">
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">Tentang Kami</a></li>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Kontak</a></li>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Kebijakan Privasi</a></li>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Syarat & Ketentuan</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="footer-section">
+                            <h5>Kontak Kami</h5>
+                            <ul class="footer-links">
+                                <li>
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    Jakarta, Indonesia
+                                </li>
+                                <li>
+                                    <i class="fas fa-phone me-2"></i>
+                                    +62 21 1234 5678
+                                </li>
+                                <li>
+                                    <i class="fas fa-envelope me-2"></i>
+                                    info@cuacabesok.com
+                                </li>
+                                <li>
+                                    <i class="fas fa-clock me-2"></i>
+                                    24/7 Online
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>
+                    &copy; 2025 Cuaca Besok. Semua hak dilindungi. 
+                    Dibuat dengan <i class="fas fa-heart text-danger mx-1"></i> untuk Indonesia.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-info-circle me-2"></i>Tentang Cuaca Besok
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6><i class="fas fa-bullseye me-2"></i>Misi Kami</h6>
+                    <p>
+                        Cuaca Besok hadir untuk memberikan informasi prakiraan cuaca yang akurat dan terpercaya 
+                        untuk seluruh wilayah Indonesia. Kami berkomitmen membantu masyarakat Indonesia dalam 
+                        merencanakan aktivitas sehari-hari dengan informasi cuaca yang tepat waktu.
+                    </p>
+
+                    <h6><i class="fas fa-rocket me-2"></i>Visi Kami</h6>
+                    <p>
+                        Menjadi platform prakiraan cuaca nomor satu di Indonesia yang memberikan data akurat, 
+                        real-time, dan mudah diakses oleh semua kalangan masyarakat.
+                    </p>
+
+                    <h6><i class="fas fa-star me-2"></i>Keunggulan Kami</h6>
+                    <ul>
+                        <li><strong>Data Real-Time:</strong> Informasi cuaca yang selalu ter-update setiap saat</li>
+                        <li><strong>Akurasi Tinggi:</strong> Menggunakan teknologi meteorologi terdepan</li>
+                        <li><strong>Cakupan Lengkap:</strong> Meliputi seluruh kota dan kabupaten di Indonesia</li>
+                        <li><strong>Interface Modern:</strong> Tampilan yang user-friendly dan responsif</li>
+                        <li><strong>Gratis Selamanya:</strong> Akses penuh tanpa biaya berlangganan</li>
+                    </ul>
+
+                    <h6><i class="fas fa-users me-2"></i>Tim Kami</h6>
+                    <p>
+                        Tim Cuaca Besok terdiri dari para ahli meteorologi, developer berpengalaman, dan 
+                        desainer UI/UX yang berdedikasi untuk memberikan pengalaman terbaik bagi pengguna.
+                    </p>
+
+                    <h6><i class="fas fa-database me-2"></i>Sumber Data</h6>
+                    <p>
+                        Kami menggunakan data dari stasiun cuaca terpercaya dan API meteorologi internasional 
+                        untuk memastikan akurasi informasi yang kami berikan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-envelope me-2"></i>Hubungi Kami
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h6><i class="fas fa-paper-plane me-2"></i>Kirim Pesan</h6>
+                            <form id="contactForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contactName" placeholder="Nama Lengkap" required>
+                                            <label for="contactName">Nama Lengkap</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            <input type="email" class="form-control" id="contactEmail" placeholder="Email" required>
+                                            <label for="contactEmail">Alamat Email</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="contactSubject" placeholder="Subjek" required>
+                                        <label for="contactSubject">Subjek Pesan</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="contactMessage" placeholder="Pesan" style="height: 120px" required></textarea>
+                                        <label for="contactMessage">Pesan Anda</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary-custom">
+                                    <i class="fas fa-paper-plane me-2"></i>Kirim Pesan
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <h6><i class="fas fa-map-marker-alt me-2"></i>Informasi Kontak</h6>
+                            <div class="contact-info">
+                                <div class="mb-3">
+                                    <strong><i class="fas fa-building me-2"></i>Alamat:</strong><br>
+                                    Gedung Cuaca Center<br>
+                                    Jl. Meteorologi No. 123<br>
+                                    Jakarta Pusat 10110<br>
+                                    Indonesia
+                                </div>
+                                <div class="mb-3">
+                                    <strong><i class="fas fa-phone me-2"></i>Telepon:</strong><br>
+                                    +62 21 1234 5678
+                                </div>
+                                <div class="mb-3">
+                                    <strong><i class="fas fa-envelope me-2"></i>Email:</strong><br>
+                                    info@cuacabesok.com<br>
+                                    support@cuacabesok.com
+                                </div>
+                                <div class="mb-3">
+                                    <strong><i class="fas fa-clock me-2"></i>Jam Operasional:</strong><br>
+                                    24 Jam Setiap Hari<br>
+                                    Online Support
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-shield-alt me-2"></i>Kebijakan Privasi
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Terakhir diperbarui: 1 Januari 2025</strong></p>
+                    
+                    <h6><i class="fas fa-info-circle me-2"></i>Pendahuluan</h6>
+                    <p>
+                        Cuaca Besok ("kami", "kita", atau "milik kami") berkomitmen untuk melindungi 
+                        privasi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, 
+                        menggunakan, dan melindungi informasi Anda saat menggunakan layanan kami.
+                    </p>
+
+                    <h6><i class="fas fa-database me-2"></i>Informasi yang Kami Kumpulkan</h6>
+                    <p><strong>Informasi yang Anda Berikan:</strong></p>
+                    <ul>
+                        <li>Nama dan alamat email saat menghubungi kami</li>
+                        <li>Lokasi pencarian cuaca yang Anda masukkan</li>
+                        <li>Umpan balik dan komunikasi dengan layanan pelanggan</li>
+                    </ul>
+                    
+                    <p><strong>Informasi yang Dikumpulkan Otomatis:</strong></p>
+                    <ul>
+                        <li>Alamat IP dan informasi perangkat</li>
+                        <li>Data penggunaan dan preferensi</li>
+                        <li>Informasi browser dan sistem operasi</li>
+                    </ul>
+
+                    <h6><i class="fas fa-cogs me-2"></i>Cara Kami Menggunakan Informasi</h6>
+                    <ul>
+                        <li>Menyediakan layanan prakiraan cuaca yang akurat</li>
+                        <li>Meningkatkan kualitas layanan kami</li>
+                        <li>Merespons pertanyaan dan permintaan dukungan</li>
+                        <li>Menganalisis penggunaan untuk pengembangan fitur</li>
+                        <li>Mematuhi kewajiban hukum yang berlaku</li>
+                    </ul>
+
+                    <h6><i class="fas fa-share-alt me-2"></i>Pembagian Informasi</h6>
+                    <p>Kami tidak menjual, memperdagangkan, atau menyewakan informasi pribadi Anda kepada pihak ketiga. 
+                    Kami dapat membagikan informasi dalam situasi berikut:</p>
+                    <ul>
+                        <li>Dengan persetujuan eksplisit Anda</li>
+                        <li>Untuk mematuhi kewajiban hukum</li>
+                        <li>Untuk melindungi hak dan keamanan kami</li>
+                        <li>Dengan penyedia layanan terpercaya yang membantu operasional kami</li>
+                    </ul>
+
+                    <h6><i class="fas fa-lock me-2"></i>Keamanan Data</h6>
+                    <p>
+                        Kami menerapkan langkah-langkah keamanan teknis dan organisasi yang sesuai 
+                        untuk melindungi informasi pribadi Anda dari akses, penggunaan, atau 
+                        pengungkapan yang tidak sah.
+                    </p>
+
+                    <h6><i class="fas fa-user-check me-2"></i>Hak Anda</h6>
+                    <p>Anda memiliki hak untuk:</p>
+                    <ul>
+                        <li>Mengakses informasi pribadi yang kami miliki tentang Anda</li>
+                        <li>Meminta koreksi atau penghapusan data pribadi</li>
+                        <li>Menarik persetujuan kapan saja</li>
+                        <li>Membatasi atau menolak pemrosesan data tertentu</li>
+                    </ul>
+
+                    <h6><i class="fas fa-phone me-2"></i>Kontak</h6>
+                    <p>
+                        Jika Anda memiliki pertanyaan tentang Kebijakan Privasi ini, silakan hubungi kami di 
+                        <strong>privacy@cuacabesok.com</strong> atau melalui formulir kontak kami.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-file-contract me-2"></i>Syarat & Ketentuan
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Terakhir diperbarui: 1 Januari 2025</strong></p>
+                    
+                    <h6><i class="fas fa-handshake me-2"></i>Penerimaan Syarat</h6>
+                    <p>
+                        Dengan mengakses dan menggunakan situs web Cuaca Besok ("Layanan"), 
+                        Anda menyetujui untuk terikat oleh Syarat dan Ketentuan ini. 
+                        Jika Anda tidak setuju dengan syarat ini, mohon jangan gunakan layanan kami.
+                    </p>
+
+                    <h6><i class="fas fa-cloud me-2"></i>Deskripsi Layanan</h6>
+                    <p>
+                        Cuaca Besok menyediakan informasi prakiraan cuaca untuk wilayah Indonesia. 
+                        Layanan ini mencakup data cuaca saat ini, prakiraan harian, dan informasi 
+                        meteorologi terkait lainnya.
+                    </p>
+
+                    <h6><i class="fas fa-user-cog me-2"></i>Penggunaan yang Diizinkan</h6>
+                    <p>Anda diizinkan untuk:</p>
+                    <ul>
+                        <li>Menggunakan layanan untuk keperluan pribadi dan non-komersial</li>
+                        <li>Mengakses informasi cuaca untuk perencanaan aktivitas</li>
+                        <li>Membagikan informasi cuaca dengan mencantumkan sumber</li>
+                    </ul>
+
+                    <h6><i class="fas fa-ban me-2"></i>Penggunaan yang Dilarang</h6>
+                    <p>Anda dilarang untuk:</p>
+                    <ul>
+                        <li>Menggunakan layanan untuk tujuan ilegal atau tidak sah</li>
+                        <li>Mencoba mengakses sistem atau data secara tidak sah</li>
+                        <li>Mengganggu atau merusak operasional layanan</li>
+                        <li>Menyalin atau mendistribusikan konten tanpa izin</li>
+                        <li>Menggunakan bot atau sistem otomatis yang berlebihan</li>
+                    </ul>
+
+                    <h6><i class="fas fa-exclamation-triangle me-2"></i>Penafian Akurasi</h6>
+                    <p>
+                        Meskipun kami berusaha memberikan informasi cuaca yang akurat, 
+                        prakiraan cuaca bersifat perkiraan dan dapat berubah. Kami tidak 
+                        bertanggung jawab atas keputusan yang dibuat berdasarkan informasi 
+                        cuaca yang disediakan.
+                    </p>
+
+                    <h6><i class="fas fa-shield-alt me-2"></i>Batasan Tanggung Jawab</h6>
+                    <p>
+                        Cuaca Besok tidak bertanggung jawab atas kerugian langsung, tidak langsung, 
+                        atau konsekuensial yang timbul dari penggunaan layanan kami. Penggunaan 
+                        layanan ini sepenuhnya menjadi risiko Anda sendiri.
+                    </p>
+
+                    <h6><i class="fas fa-copyright me-2"></i>Hak Kekayaan Intelektual</h6>
+                    <p>
+                        Semua konten, desain, logo, dan materi di situs web ini dilindungi 
+                        hak cipta dan merupakan milik Cuaca Besok atau pemberi lisensi kami. 
+                        Penggunaan tanpa izin dilarang.
+                    </p>
+
+                    <h6><i class="fas fa-edit me-2"></i>Perubahan Syarat</h6>
+                    <p>
+                        Kami berhak mengubah Syarat dan Ketentuan ini kapan saja. 
+                        Perubahan akan berlaku segera setelah dipublikasikan di situs web. 
+                        Penggunaan berkelanjutan layanan kami menandakan penerimaan terhadap perubahan.
+                    </p>
+
+                    <h6><i class="fas fa-gavel me-2"></i>Hukum yang Berlaku</h6>
+                    <p>
+                        Syarat dan Ketentuan ini diatur oleh hukum Republik Indonesia. 
+                        Setiap sengketa akan diselesaikan melalui pengadilan yang berwenang di Jakarta.
+                    </p>
+
+                    <h6><i class="fas fa-envelope me-2"></i>Kontak</h6>
+                    <p>
+                        Untuk pertanyaan tentang Syarat dan Ketentuan ini, hubungi kami di 
+                        <strong>legal@cuacabesok.com</strong> atau melalui formulir kontak kami.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Replace with your actual WeatherAPI.com API key
+        const API_KEY = 'dce3d609b39a4bb9b44184459250307';
+        const BASE_URL = 'https://api.weatherapi.com/v1';
+
+        // Indonesian day names
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+        // Weather condition translations
+        const weatherTranslations = {
+            'sunny': 'Cerah',
+            'clear': 'Cerah',
+            'partly cloudy': 'Berawan Sebagian',
+            'cloudy': 'Berawan',
+            'overcast': 'Mendung',
+            'mist': 'Kabut Tipis',
+            'fog': 'Berkabut',
+            'patchy rain possible': 'Kemungkinan Hujan',
+            'patchy snow possible': 'Kemungkinan Salju',
+            'patchy sleet possible': 'Kemungkinan Hujan Es',
+            'patchy freezing drizzle possible': 'Kemungkinan Gerimis Beku',
+            'thundery outbreaks possible': 'Kemungkinan Badai Petir',
+            'blowing snow': 'Badai Salju',
+            'blizzard': 'Badai Salju Lebat',
+            'fog': 'Berkabut',
+            'freezing fog': 'Kabut Beku',
+            'patchy light drizzle': 'Gerimis Ringan Sebagian',
+            'light drizzle': 'Gerimis Ringan',
+            'freezing drizzle': 'Gerimis Beku',
+            'heavy freezing drizzle': 'Gerimis Beku Lebat',
+            'patchy light rain': 'Hujan Ringan Sebagian',
+            'light rain': 'Hujan Ringan',
+            'moderate rain at times': 'Hujan Sedang Kadang-kadang',
+            'moderate rain': 'Hujan Sedang',
+            'heavy rain at times': 'Hujan Lebat Kadang-kadang',
+            'heavy rain': 'Hujan Lebat',
+            'light freezing rain': 'Hujan Beku Ringan',
+            'moderate or heavy freezing rain': 'Hujan Beku Sedang atau Lebat',
+            'light sleet': 'Hujan Es Ringan',
+            'moderate or heavy sleet': 'Hujan Es Sedang atau Lebat',
+            'patchy light snow': 'Salju Ringan Sebagian',
+            'light snow': 'Salju Ringan',
+            'patchy moderate snow': 'Salju Sedang Sebagian',
+            'moderate snow': 'Salju Sedang',
+            'patchy heavy snow': 'Salju Lebat Sebagian',
+            'heavy snow': 'Salju Lebat',
+            'ice pellets': 'Butiran Es',
+            'light rain shower': 'Hujan Gerimis Ringan',
+            'moderate or heavy rain shower': 'Hujan Gerimis Sedang atau Lebat',
+            'torrential rain shower': 'Hujan Gerimis Deras',
+            'light sleet showers': 'Hujan Es Gerimis Ringan',
+            'moderate or heavy sleet showers': 'Hujan Es Gerimis Sedang atau Lebat',
+            'light snow showers': 'Salju Gerimis Ringan',
+            'moderate or heavy snow showers': 'Salju Gerimis Sedang atau Lebat',
+            'light showers of ice pellets': 'Gerimis Butiran Es Ringan',
+            'moderate or heavy showers of ice pellets': 'Gerimis Butiran Es Sedang atau Lebat',
+            'patchy light rain with thunder': 'Hujan Ringan dengan Petir Sebagian',
+            'moderate or heavy rain with thunder': 'Hujan Sedang atau Lebat dengan Petir',
+            'patchy light snow with thunder': 'Salju Ringan dengan Petir Sebagian',
+            'moderate or heavy snow with thunder': 'Salju Sedang atau Lebat dengan Petir'
+        };
+
+        async function fetchWeatherData(city) {
+            try {
+                showLoading(true);
+                hideError();
+
+                const currentResponse = await fetch(
+                    `${BASE_URL}/current.json?key=${API_KEY}&q=${city}&aqi=yes`
+                );
+
+                const forecastResponse = await fetch(
+                    `${BASE_URL}/forecast.json?key=${API_KEY}&q=${city}&days=7&aqi=no`
+                );
+
+                if (!currentResponse.ok || !forecastResponse.ok) {
+                    throw new Error('Kota tidak ditemukan. Silakan periksa ejaan atau coba kota lain.');
+                }
+
+                const currentData = await currentResponse.json();
+                const forecastData = await forecastResponse.json();
+
+                updateCurrentWeather(currentData);
+                updateForecast(forecastData);
+                
+                showLoading(false);
+                document.getElementById('currentWeather').style.display = 'block';
+                document.getElementById('forecastWeather').style.display = 'block';
+
+                // Smooth scroll to current weather
+                document.getElementById('currentWeather').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+
+            } catch (error) {
+                showLoading(false);
+                showError(error.message || 'Terjadi kesalahan saat memuat data cuaca. Silakan coba lagi.');
+            }
+        }
+
+        function updateCurrentWeather(data) {
+            const location = data.location;
+            const current = data.current;
+
+            document.getElementById('locationName').textContent = 
+                `${location.name}, ${location.region}`;
+            
+            document.getElementById('weatherDescription').textContent = 
+                translateWeather(current.condition.text);
+            
+            document.getElementById('weatherIcon').src = current.condition.icon;
+            document.getElementById('weatherIcon').alt = translateWeather(current.condition.text);
+            document.getElementById('temperature').textContent = `${Math.round(current.temp_c)}°C`;
+            
+            document.getElementById('visibility').textContent = `${current.vis_km} km`;
+            document.getElementById('humidity').textContent = `${current.humidity}%`;
+            document.getElementById('windSpeed').textContent = `${current.wind_kph} km/h`;
+            document.getElementById('feelsLike').textContent = `${Math.round(current.feelslike_c)}°C`;
+            document.getElementById('pressure').textContent = `${current.pressure_mb} mb`;
+            document.getElementById('uvIndex').textContent = getUVDescription(current.uv);
+        }
+
+        function updateForecast(data) {
+            const forecastContainer = document.getElementById('forecastContainer');
+            forecastContainer.innerHTML = '';
+
+            data.forecast.forecastday.forEach((day, index) => {
+                const date = new Date(day.date);
+                const dayName = index === 0 ? 'Hari Ini' : 
+                               index === 1 ? 'Besok' : 
+                               dayNames[date.getDay()];
+                
+                const forecastItem = document.createElement('div');
+                forecastItem.className = 'forecast-item';
+                
+                forecastItem.innerHTML = `
+                    <div class="forecast-day">${dayName}</div>
+                    <img src="${day.day.condition.icon}" alt="${translateWeather(day.day.condition.text)}" class="forecast-icon">
+                    <div class="forecast-temps">
+                        <span class="forecast-high">${Math.round(day.day.maxtemp_c)}°</span>
+                        <span class="forecast-low">${Math.round(day.day.mintemp_c)}°</span>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--accent-color); margin-top: 8px; line-height: 1.3;">
+                        ${translateWeather(day.day.condition.text)}
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--accent-color); margin-top: 5px;">
+                        <i class="fas fa-tint me-1"></i>${day.day.avghumidity}%
+                    </div>
+                `;
+                
+                forecastContainer.appendChild(forecastItem);
+            });
+        }
+
+        function translateWeather(condition) {
+            const lowerCondition = condition.toLowerCase();
+            return weatherTranslations[lowerCondition] || condition;
+        }
+
+        function getUVDescription(uvIndex) {
+            if (uvIndex <= 2) return `${uvIndex} (Rendah)`;
+            if (uvIndex <= 5) return `${uvIndex} (Sedang)`;
+            if (uvIndex <= 7) return `${uvIndex} (Tinggi)`;
+            if (uvIndex <= 10) return `${uvIndex} (Sangat Tinggi)`;
+            return `${uvIndex} (Ekstrem)`;
+        }
+
+        function searchWeather() {
+            const city = document.getElementById('searchInput').value.trim();
+            if (city) {
+                fetchWeatherData(city);
+            } else {
+                showError('Silakan masukkan nama kota terlebih dahulu.');
+            }
+        }
+
+        function searchCity(cityName) {
+            document.getElementById('searchInput').value = cityName;
+            fetchWeatherData(cityName);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                searchWeather();
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingState').style.display = show ? 'block' : 'none';
+            if (show) {
+                document.getElementById('currentWeather').style.display = 'none';
+                document.getElementById('forecastWeather').style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').style.display = 'block';
+            
+            // Auto hide error after 5 seconds
+            setTimeout(() => {
+                hideError();
+            }, 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        // Contact form handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // Simple validation
+            if (!name || !email || !subject || !message) {
+                alert('Silakan lengkapi semua field yang diperlukan.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert(`Terima kasih ${name}! Pesan Anda telah dikirim. Kami akan merespons dalam 1x24 jam.`);
+            
+            // Reset form
+            this.reset();
+            
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('contactModal')).hide();
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize with Jakarta as default
+        window.addEventListener('load', () => {
+            // Add a small delay to ensure everything is loaded
+            setTimeout(() => {
+                fetchWeatherData('Jakarta');
+            }, 500);
+        });
+
+        // Add enhanced user experience features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-focus search input on desktop
+            if (window.innerWidth > 768) {
+                document.getElementById('searchInput').focus();
+            }
+
+            // Add search suggestions (you can enhance this with actual city data)
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                // You can add autocomplete functionality here
+                hideError(); // Hide error when user starts typing
+            });
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + K to focus search
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            });
+        });
+
+        // Add progressive enhancement for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // You can register a service worker here for offline support
+            });
+        }
+    </script>
+</body>
+</html>
